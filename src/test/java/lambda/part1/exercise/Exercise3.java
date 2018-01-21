@@ -17,6 +17,8 @@ public class Exercise3 {
         Person[] persons = getPersons();
 
         // TODO использовать Arrays.sort + expression-lambda
+//        Arrays.sort(persons, (a, b) -> a.compareTo(b)); //also works
+        Arrays.sort(persons, (a, b) -> Integer.compare(a.getAge(), b.getAge()));
 
         assertArrayEquals(new Person[]{
             new Person("Иван", "Мельников", 20),
@@ -31,6 +33,11 @@ public class Exercise3 {
         Person[] persons = getPersons();
 
         // TODO использовать Arrays.sort + statement-lambda
+        Arrays.sort(persons,
+                    (a, b) -> {return a.getLastName().compareTo(b.getLastName());}
+
+
+                    );
 
         assertArrayEquals(new Person[]{
             new Person("Алексей", "Доренко", 40),
