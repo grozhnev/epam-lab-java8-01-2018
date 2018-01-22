@@ -60,6 +60,7 @@ public class Exercise1 {
         // TODO использовать FluentIterable
         Person person = null;
 
+
         assertEquals(new Person("Николай", "Зимов", 30), person);
     }
 
