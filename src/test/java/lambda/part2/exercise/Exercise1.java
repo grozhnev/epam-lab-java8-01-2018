@@ -4,8 +4,11 @@ import lambda.data.Person;
 import org.junit.Test;
 
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings({"unused", "ConstantConditions"})
@@ -27,13 +30,10 @@ public class Exercise1 {
         Person person3 = new Person("Илья", "Жирков", 22);
 
         // TODO создать переменную sameAgesChecker: (Person, Person) -> boolean, используя BiPredicate
-
-        // assertTrue(sameAgesChecker.test(person1, person2));
-        // assertFalse(sameAgesChecker.test(person1, person3));
-        // assertFalse(sameAgesChecker.test(person2, person3));
-
-        // FIXME удалить при реализации
-        throw new UnsupportedOperationException("Not implemented");
+        BiPredicate<Person, Person> sameAgesChecker = (p1, p2) -> p1.getAge() == p2.getAge();
+        assertTrue(sameAgesChecker.test(person1, person2));
+        assertFalse(sameAgesChecker.test(person1, person3));
+        assertFalse(sameAgesChecker.test(person2, person3));
     }
 
     // TODO метод getFullName: Person -> String, извлекающий из объекта Person строку в формате "имя фамилия".
