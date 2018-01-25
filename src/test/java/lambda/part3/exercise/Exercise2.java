@@ -1,6 +1,8 @@
 package lambda.part3.exercise;
 
 import lambda.data.Employee;
+import lambda.data.JobHistoryEntry;
+import lambda.data.Person;
 import lambda.part3.example.Example1;
 import org.junit.Test;
 
@@ -37,7 +39,9 @@ public class Exercise2 {
          * @param mapping Функция преобразования элементов.
          */
         public <R> MapHelper<R> map(Function<T, R> mapping) {
-            throw new UnsupportedOperationException();
+            List<R> result = new ArrayList<>();
+            source.forEach(s -> result.add(mapping.apply(s)));
+            return MapHelper.from(result);
         }
 
         /**
@@ -47,7 +51,9 @@ public class Exercise2 {
          * @param flatMapping Функция преобразования элементов.
          */
         public <R> MapHelper<R> flatMap(Function<T, List<R>> flatMapping) {
-            throw new UnsupportedOperationException();
+            List<R> result = new ArrayList<>();
+            source.forEach(source -> result.addAll(flatMapping.apply(source)));
+            return MapHelper.from(result);
         }
     }
 
@@ -55,7 +61,11 @@ public class Exercise2 {
     public void mapEmployeesToLengthOfTheirFullNamesUsingMapHelper() {
         List<Employee> employees = Example1.getEmployees();
 
-        List<Integer> lengths = null;
+        List<Integer> lengths = MapHelper.from(employees)
+                .map(Employee::getPerson)
+                .map(Person::getFullName)
+                .map(String::length)
+                .getMapped();
         // TODO                 MapHelper.from(employees)
         // TODO                          .map(Employee -> Person)
         // TODO                          .map(Person -> String(full name))
@@ -68,7 +78,24 @@ public class Exercise2 {
     public void mapEmployeesToCodesOfLetterTheirPositionsUsingMapHelper() {
         List<Employee> employees = Example1.getEmployees();
 
-        List<Integer> codes = null;
+        Function<Employee, List<JobHistoryEntry>> getJobHistory = Employee::getJobHistory;
+
+
+        Function<String, List<Character>> getCharacterList = inputSting -> {
+            List<Character> chars = new ArrayList<>();
+            for (char c : inputSting.toCharArray()) {
+                chars.add(c);
+            }
+            return chars;
+        };
+
+        List<Integer> codes = MapHelper.from(employees)
+                .flatMap(Employee::getJobHistory)
+                .map(JobHistoryEntry::getPosition)
+                .flatMap(getCharacterList)
+                .map(Integer::valueOf)
+                .getMapped();
+
         // TODO               MapHelper.from(employees)
         // TODO                        .flatMap(Employee -> JobHistoryEntry)
         // TODO                        .map(JobHistoryEntry -> String(position))
