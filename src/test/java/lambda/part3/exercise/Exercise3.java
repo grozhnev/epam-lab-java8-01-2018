@@ -31,7 +31,7 @@ public class Exercise3 {
 
         public List<R> force() {
             List<R> result = new ArrayList<>();
-            source.forEach(val -> result.add(mapping.apply(val)));
+            source.forEach(mapping.andThen(result::add)::apply);
             return result;
         }
 
