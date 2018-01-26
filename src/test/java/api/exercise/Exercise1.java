@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -71,10 +73,14 @@ public class Exercise1 {
         candidates.put(alex, Status.PENDING);
         candidates.put(ivan, Status.PENDING);
 
-        // TODO реализация
-        Status alexStatus = null;
-        Status ivanStatus = null;
-        Status helenStatus = null;
+        BiFunction< Map<Person, Status>, Person, Status> statusExtractor = (map, key) -> {
+            Status status = map.get(key);
+            return Objects.nonNull(map.get(key)) ? status : Status.UNKNOWN;
+        };
+
+        Status alexStatus = statusExtractor.apply(candidates,alex);
+        Status ivanStatus = statusExtractor.apply(candidates,ivan);
+        Status helenStatus = statusExtractor.apply(candidates,helen);
 
         assertEquals(Status.PENDING, alexStatus);
         assertEquals(Status.PENDING, ivanStatus);
