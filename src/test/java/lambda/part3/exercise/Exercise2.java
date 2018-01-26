@@ -42,7 +42,7 @@ public class Exercise2 {
         public <R> MapHelper<R> map(Function<T, R> mapping) {
             List<R> result = new ArrayList<>();
             source.forEach(mapping.andThen(result::add)::apply);
-            return new MapHelper<>(result);
+            return from(result);
         }
 
         /**
@@ -52,11 +52,9 @@ public class Exercise2 {
          * @param flatMapping Функция преобразования элементов.
          */
         public <R> MapHelper<R> flatMap(Function<T, List<R>> flatMapping) {
-            List<List<R>> lists = new ArrayList<>();
             List<R> result = new ArrayList<>();
-            source.forEach(flatMapping.andThen(lists::add)::apply);
-            lists.forEach(result::addAll);
-            return new MapHelper<>(result);
+            source.forEach(flatMapping.andThen(result::addAll)::apply);
+            return from(result);
         }
     }
 
