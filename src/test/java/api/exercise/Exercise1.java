@@ -32,8 +32,8 @@ public class Exercise1 {
 
         candidates = candidates.entrySet().stream().collect(Collectors.toMap(
                 Map.Entry::getKey,
-                e -> e.getKey().getAge()>21 ?  Status.ACCEPTED : Status.DECLINED
-                ));
+                e -> e.getKey().getAge() > 21 ? Status.ACCEPTED : Status.DECLINED
+        ));
 
         assertEquals(Status.ACCEPTED, candidates.get(ivan));
         assertEquals(Status.ACCEPTED, candidates.get(helen));
@@ -50,7 +50,11 @@ public class Exercise1 {
         candidates.put(ivan, Status.PENDING);
         candidates.put(helen, Status.PENDING);
 
-        // TODO реализация
+        candidates = candidates.entrySet().stream().filter(e -> e.getKey().getAge() > 21)
+                .collect(Collectors.toMap(
+                        e -> e.getKey(),
+                       e -> Status.ACCEPTED
+                ));
 
         Map<Person, Status> expected = new HashMap<>();
         expected.put(ivan, Status.ACCEPTED);
