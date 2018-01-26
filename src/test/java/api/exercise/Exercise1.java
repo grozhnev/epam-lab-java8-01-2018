@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,7 +30,10 @@ public class Exercise1 {
         candidates.put(ivan, Status.PENDING);
         candidates.put(helen, Status.PENDING);
 
-        // TODO реализация
+        candidates = candidates.entrySet().stream().collect(Collectors.toMap(
+                Map.Entry::getKey,
+                e -> e.getKey().getAge()>21 ?  Status.ACCEPTED : Status.DECLINED
+                ));
 
         assertEquals(Status.ACCEPTED, candidates.get(ivan));
         assertEquals(Status.ACCEPTED, candidates.get(helen));
