@@ -54,7 +54,7 @@ public class Exercise1 {
 
         candidates = candidates.entrySet().stream().filter(e -> e.getKey().getAge() > 21)
                 .collect(Collectors.toMap(
-                        e -> e.getKey(),
+                        Map.Entry::getKey,
                         e -> Status.ACCEPTED
                 ));
 
