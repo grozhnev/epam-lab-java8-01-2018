@@ -56,15 +56,11 @@ public class Exercise2 {
          * @param flatMapping Функция преобразования элементов.
          */
         public <R> MapHelper<R> flatMap(Function<T, List<R>> flatMapping) {
-            List<List<R>> lists = new ArrayList<>();
-            for (T elem : source) {
-                lists.add(flatMapping.apply(elem));
-            }
-
             List<R> result = new ArrayList<>();
-            for (List<R> list : lists) {
-                result.addAll(list);
-            }
+
+            source.forEach(s -> {
+                result.addAll(flatMapping.apply(s));
+            });
 
             return new MapHelper<>(result);
         }
@@ -91,7 +87,6 @@ public class Exercise2 {
         .flatMap(Employee::getJobHistory)
         .map(JobHistoryEntry::getPosition)
         .flatMap(position -> position.chars().boxed().collect(Collectors.toList()))
-        .map(chars-> chars)
         .getMapped();
         assertEquals(calcCodes("dev", "dev", "tester", "dev", "dev", "QA", "QA", "dev", "tester", "tester", "QA", "QA", "QA", "dev"), codes);
     }
