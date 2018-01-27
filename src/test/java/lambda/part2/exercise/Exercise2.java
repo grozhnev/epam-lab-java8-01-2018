@@ -32,18 +32,17 @@ public class Exercise2 {
     @Test
     public void personHasNotEmptyLastNameAndFirstNameUsingLogicalOperators() {
         Predicate<Person> personHasEmptyFirstName =
-                negateUsingLogicalOperator(person -> !person.getFirstName().isEmpty());
-        Predicate<Person> personHasEmptyLastName =
-                negateUsingLogicalOperator(person -> !person.getLastName().isEmpty());
-
-        Predicate<Person> personHasNotEmptyFirstName =
                 negateUsingLogicalOperator(person -> person.getFirstName().isEmpty());
-        Predicate<Person> personHasNotEmptyLastName =
+        Predicate<Person> personHasEmptyLastName =
                 negateUsingLogicalOperator(person -> person.getLastName().isEmpty());
 
+        Predicate<Person> personHasNotEmptyFirstName =
+                negateUsingLogicalOperator(negateUsingLogicalOperator(personHasEmptyFirstName));
+        Predicate<Person> personHasNotEmptyLastName =
+                negateUsingLogicalOperator(negateUsingLogicalOperator(personHasEmptyLastName));
+
         Predicate<Person> personHasNotEmptyLastNameAndFirstName =
-                andUsingLogicalOperator(person -> !person.getFirstName().isEmpty(),
-                        person -> !person.getLastName().isEmpty());
+                andUsingLogicalOperator(personHasNotEmptyLastName, personHasNotEmptyFirstName);
 
         assertTrue(personHasNotEmptyLastNameAndFirstName.test(new Person("Алексей", "Доренко", 40)));
         assertFalse(personHasNotEmptyLastNameAndFirstName.test(new Person("Николай", "", 30)));
