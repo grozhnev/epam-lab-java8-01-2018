@@ -94,7 +94,7 @@ public class Exercise1 {
         newValues.put(alex, Status.DECLINED);
         newValues.put(helen, Status.PENDING);
 
-        newValues.putIfAbsent(ivan, Status.ACCEPTED);
+        oldValues.forEach( (p,v) -> newValues.putIfAbsent(p, Status.ACCEPTED));
 
         assertEquals(Status.DECLINED, newValues.get(alex));
         assertEquals(Status.ACCEPTED, newValues.get(ivan));
