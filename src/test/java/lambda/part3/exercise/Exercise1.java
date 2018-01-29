@@ -26,11 +26,9 @@ public class Exercise1 {
         Function<String, Integer> fullNameLengthExtractor = String::length;
 
         Function<Employee, Integer> employeeToLengthOfHisFullName =
-                e -> fullNameLengthExtractor.apply(fullNameExtractor.apply(personExtractor.apply(e)));
+                fullNameLengthExtractor.compose(fullNameExtractor.compose(personExtractor));
 
-        for (Employee employee : employees) {
-            lengths.add(employeeToLengthOfHisFullName.apply(employee));
-        }
+        employees.forEach(employee -> lengths.add(employeeToLengthOfHisFullName.apply(employee)));
 
         assertEquals(Arrays.asList(14, 19, 14, 15, 14, 16), lengths);
     }
