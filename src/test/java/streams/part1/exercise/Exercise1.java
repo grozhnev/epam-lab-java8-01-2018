@@ -56,8 +56,9 @@ public class Exercise1 {
         List<Employee> employees = Example1.getEmployees();
 
         Set<String> companies = employees.stream()
-                                         .map(Employee::getJobHistory)
-                                         .flatMap(Collection::stream)
+//                                         .map(Employee::getJobHistory)
+//                                         .flatMap(Collection::stream)
+                                         .flatMap(e -> e.getJobHistory().stream())
                                          .map(JobHistoryEntry::getEmployer)
                                          .collect(Collectors.toSet());
 
@@ -78,7 +79,7 @@ public class Exercise1 {
                                       .map(Employee::getPerson)
                                       .map(Person::getAge)
                                       .min(Integer::compare)
-                                      .get();
+                                      .orElseThrow(IllegalStateException::new);
 
         assertEquals(21, minimalAge.intValue());
     }
