@@ -19,7 +19,7 @@ public class Exercise2 {
 
         Double expected = employees.stream()
                 .map(Employee::getPerson)
-                .mapToDouble(Person::getAge)
+                .mapToInt(Person::getAge)
                 .average()
                 .getAsDouble();
 
@@ -32,9 +32,9 @@ public class Exercise2 {
 
         Person expected = employees.stream()
                 .map(Employee::getPerson)
-                .map(person -> person.getFullName().length())
-
-
+                //.max(Comparator.comparingInt(person -> person.getFullName().length()))
+                .max(Comparator.comparing(Person::getFullName, Comparator.comparingInt(String::length)))
+                .orElseThrow(IllegalStateException::new);
 
         assertEquals(expected, employees.get(1).getPerson());
     }
@@ -44,11 +44,13 @@ public class Exercise2 {
         List<Employee> employees = Example1.getEmployees();
 
         Employee expected = employees.stream()
-                .map(Employee::getJobHistory)
-                .flatMap(Collection::stream)
-                .map(JobHistoryEntry::getDuration)
-                .max(Integer::compareTo);
-
+                .max(Comparator.comparingInt( employee -> employee.getJobHistory().stream()
+                        .mapToInt(JobHistoryEntry::getDuration)
+                        .max()
+                        .orElse(0)
+                    )
+                )
+                .orElseThrow(IllegalStateException::new);
 
         assertEquals(expected, employees.get(4));
     }
@@ -68,6 +70,6 @@ public class Exercise2 {
     }
 
     private double getSalary(double iniSalary) {
-        //if
+
     }
 }
