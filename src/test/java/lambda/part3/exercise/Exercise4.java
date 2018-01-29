@@ -64,7 +64,6 @@ public class Exercise4 {
                 .flatMap(Employee::getJobHistory)
                 .map(JobHistoryEntry::getPosition)
                 .flatMap(string -> string.chars().boxed().collect(Collectors.toList()))
-                .map(character -> character)
                 .force();
         assertEquals(calcCodes("dev", "dev", "tester", "dev", "dev", "QA", "QA", "dev", "tester", "tester", "QA", "QA", "QA", "dev"), codes);
     }
