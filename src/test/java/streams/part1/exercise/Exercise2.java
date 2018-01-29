@@ -1,6 +1,7 @@
 package streams.part1.exercise;
 
 import lambda.data.Employee;
+import lambda.data.JobHistoryEntry;
 import lambda.data.Person;
 import lambda.part3.example.Example1;
 import org.junit.Test;
@@ -16,7 +17,11 @@ public class Exercise2 {
     public void calcAverageAgeOfEmployees() {
         List<Employee> employees = Example1.getEmployees();
 
-        Double expected = null;
+        Double expected = employees.stream()
+                .map(Employee::getPerson)
+                .mapToDouble(Person::getAge)
+                .average()
+                .getAsDouble();
 
         assertEquals(33.66, expected, 0.1);
     }
@@ -25,7 +30,11 @@ public class Exercise2 {
     public void findPersonWithLongestFullName() {
         List<Employee> employees = Example1.getEmployees();
 
-        Person expected = null;
+        Person expected = employees.stream()
+                .map(Employee::getPerson)
+                .map(person -> person.getFullName().length())
+
+
 
         assertEquals(expected, employees.get(1).getPerson());
     }
@@ -34,7 +43,12 @@ public class Exercise2 {
     public void findEmployeeWithMaximumDurationAtOnePosition() {
         List<Employee> employees = Example1.getEmployees();
 
-        Employee expected = null;
+        Employee expected = employees.stream()
+                .map(Employee::getJobHistory)
+                .flatMap(Collection::stream)
+                .map(JobHistoryEntry::getDuration)
+                .max(Integer::compareTo);
+
 
         assertEquals(expected, employees.get(4));
     }
@@ -51,5 +65,9 @@ public class Exercise2 {
         Double expected = null;
 
         assertEquals(465000.0, expected, 0.001);
+    }
+
+    private double getSalary(double iniSalary) {
+        //if
     }
 }
