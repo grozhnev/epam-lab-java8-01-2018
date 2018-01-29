@@ -66,7 +66,6 @@ public class Exercise1 {
         candidates.put(ivan, Status.PENDING);
 
         Status alexStatus = candidates.getOrDefault(alex, Status.UNKNOWN);
-        ;
         Status ivanStatus = candidates.getOrDefault(ivan, Status.UNKNOWN);
         Status helenStatus = candidates.getOrDefault(helen, Status.UNKNOWN);
 
@@ -91,7 +90,6 @@ public class Exercise1 {
         newValues.put(helen, Status.PENDING);
 
         newValues.putIfAbsent(ivan, Status.ACCEPTED);
-        newValues.putIfAbsent(dmitry, Status.ACCEPTED);
 
         assertEquals(Status.DECLINED, newValues.get(alex));
         assertEquals(Status.ACCEPTED, newValues.get(ivan));
