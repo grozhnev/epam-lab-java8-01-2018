@@ -93,6 +93,7 @@ public class Exercise1 {
                 .firstMatch(isAge30Checker)
                 .orNull();
 
+
         assertEquals(new Person("Николай", "Зимов", 30), person);
     }
 
