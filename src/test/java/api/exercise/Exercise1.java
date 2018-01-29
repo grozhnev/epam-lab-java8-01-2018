@@ -47,8 +47,13 @@ public class Exercise1 {
         candidates.put(ivan, Status.PENDING);
         candidates.put(helen, Status.PENDING);
 
-        candidates.entrySet().removeIf((personStatusEntry -> personStatusEntry.getKey().getAge() < 21));
-        candidates.replaceAll(((person, status) -> Status.ACCEPTED));
+        for (Map.Entry<Person, Status> personStatusEntry : candidates.entrySet()) {
+            candidates.compute(personStatusEntry.getKey(),
+                    (k2, v2) -> k2.getAge() < 21 ? null : Status.ACCEPTED);
+        }
+
+//        candidates.entrySet().removeIf((personStatusEntry -> personStatusEntry.getKey().getAge() < 21));
+//        candidates.replaceAll(((person, status) -> Status.ACCEPTED));
 
         Map<Person, Status> expected = new HashMap<>();
         expected.put(ivan, Status.ACCEPTED);
