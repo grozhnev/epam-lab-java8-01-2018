@@ -6,7 +6,9 @@ import lambda.data.Person;
 import lambda.part3.example.Example1;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -44,7 +46,7 @@ public class Exercise2 {
         List<Employee> employees = Example1.getEmployees();
 
         Employee expected = employees.stream()
-                .max(Comparator.comparingInt( employee -> employee.getJobHistory().stream()
+                .max(Comparator.comparingInt(employee -> employee.getJobHistory().stream()
                         .mapToInt(JobHistoryEntry::getDuration)
                         .max()
                         .orElse(0)
@@ -64,12 +66,17 @@ public class Exercise2 {
     public void calcTotalSalaryWithCoefficientWorkExperience() {
         List<Employee> employees = Example1.getEmployees();
 
-        Double expected = null;
+        Double expected = employees.stream()
+                .map(employee -> employee.getJobHistory().get(employee.getJobHistory().size() - 1))
+                .mapToDouble(JobHistoryEntry::getDuration)
+                .map(Exercise2::getSalary)
+                .sum();
 
         assertEquals(465000.0, expected, 0.001);
     }
 
-    private double getSalary(double iniSalary) {
-
+    private static double getSalary(double years) {
+        double base = 75000;
+        return (years > 3) ? base * 1.2 : base;
     }
 }
