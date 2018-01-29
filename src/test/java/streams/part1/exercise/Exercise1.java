@@ -21,7 +21,8 @@ public class Exercise1 {
         List<Person> personsEverWorkedInEpam = employees.stream()
                                                         .filter(e -> e.getJobHistory()
                                                                       .stream()
-                                                                      .anyMatch(j -> "EPAM".equals(j.getEmployer())))
+                                                                      .map(JobHistoryEntry::getEmployer)
+                                                                      .anyMatch("EPAM"::equals))
                                                         .map(Employee::getPerson)
                                                         .collect(Collectors.toList());
         List<Person> expected = Arrays.asList(
