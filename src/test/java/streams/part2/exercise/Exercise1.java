@@ -75,7 +75,17 @@ public class Exercise1 {
 
         // TODO реализация
 
-        Map<String, Set<Person>> result = null;
+        Map<String, Set<Person>> result = employees.stream()
+                                                   .collect(Collectors.toMap(firstPositionExtractor,
+                                                           employee -> {
+                                                               HashSet<Person> people = new HashSet<>();
+                                                               people.add(employee.getPerson());
+                                                               return people;
+                                                           },
+                                                           (left, right) -> {
+                                                               left.addAll(right);
+                                                               return left;
+                                                           }));
 
         Map<String, Set<Person>> expected = new HashMap<>();
         expected.put("QA", new HashSet<>(Arrays.asList(employees.get(2).getPerson(), employees.get(5).getPerson())));
