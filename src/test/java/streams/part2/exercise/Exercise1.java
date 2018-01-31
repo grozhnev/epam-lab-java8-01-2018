@@ -40,9 +40,9 @@ public class Exercise1 {
                 .collect(toSet());
 
         assertEquals(new HashSet<>(Arrays.asList(
-            employees.get(2).getPerson(),
-            employees.get(4).getPerson(),
-            employees.get(5).getPerson()
+                employees.get(2).getPerson(),
+                employees.get(4).getPerson(),
+                employees.get(5).getPerson()
         )), workedAsQa);
     }
 
@@ -56,11 +56,11 @@ public class Exercise1 {
                 .collect(Collectors.joining("\n"));
 
         assertEquals("Иван Мельников\n"
-                   + "Александр Дементьев\n"
-                   + "Дмитрий Осинов\n"
-                   + "Анна Светличная\n"
-                   + "Игорь Толмачёв\n"
-                   + "Иван Александров", result);
+                + "Александр Дементьев\n"
+                + "Дмитрий Осинов\n"
+                + "Анна Светличная\n"
+                + "Игорь Толмачёв\n"
+                + "Иван Александров", result);
     }
 
     @Test
@@ -68,21 +68,27 @@ public class Exercise1 {
     public void groupPersonsByFirstPositionUsingToMap() {
         List<Employee> employees = Example1.getEmployees();
 
-        /*Map<String, Set<Person>> result = employees.stream()
-                .collect(Collectors.toMap(e -> e.getJobHistory().get(0).getPosition(), e -> e.getPerson(),
+        Map<String, Set<Person>> result = employees.stream()
+                .collect(Collectors.toMap(
+                        e -> e.getJobHistory().get(0).getPosition(),
+                        e -> {
+                            Set<Person> res = new HashSet<>();
+                            res.add(e.getPerson());
+                            return res;
+                        },
                         (p1, p2) -> {
-                            return
+                            p1.addAll(p2);
+                            return p1;
                         }));
-        */
-        Map<String, Set<Person>> result = null;
+
 
         Map<String, Set<Person>> expected = new HashMap<>();
         expected.put("QA", new HashSet<>(Arrays.asList(employees.get(2).getPerson(), employees.get(5).getPerson())));
         expected.put("dev", Collections.singleton(employees.get(0).getPerson()));
         expected.put("tester", new HashSet<>(Arrays.asList(
-            employees.get(1).getPerson(),
-            employees.get(3).getPerson(),
-            employees.get(4).getPerson()))
+                employees.get(1).getPerson(),
+                employees.get(3).getPerson(),
+                employees.get(4).getPerson()))
         );
         assertEquals(expected, result);
     }
@@ -100,9 +106,9 @@ public class Exercise1 {
         expected.put("QA", new HashSet<>(Arrays.asList(employees.get(2).getPerson(), employees.get(5).getPerson())));
         expected.put("dev", Collections.singleton(employees.get(0).getPerson()));
         expected.put("tester", new HashSet<>(Arrays.asList(
-            employees.get(1).getPerson(),
-            employees.get(3).getPerson(),
-            employees.get(4).getPerson()))
+                employees.get(1).getPerson(),
+                employees.get(3).getPerson(),
+                employees.get(4).getPerson()))
         );
         assertEquals(expected, result);
     }
