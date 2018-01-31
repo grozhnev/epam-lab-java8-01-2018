@@ -19,8 +19,15 @@ public class Exercise1 {
     public void sortPersonsByAgeUsingArraysSortComparator() {
         Person[] persons = getPersons();
 
+        Comparator<Person> comparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person left, Person right) {
+                return Integer.compare(left.getAge(), right.getAge());
+            }
+        };
+
         // TODO использовать Arrays.sort
-        Arrays.sort(persons);
+        Arrays.sort(persons, comparator);
 
         assertArrayEquals(new Person[]{
             new Person("Иван", "Мельников", 20),
@@ -83,9 +90,7 @@ public class Exercise1 {
         };
 
         // TODO использовать FluentIterable
-        FluentIterable<Person> fluentIterablePersons = FluentIterable.from(persons);
-        Optional<Person> firstWithAge30 = fluentIterablePersons.firstMatch(ageIs30);
-        Person person = firstWithAge30.get();
+        Person person = FluentIterable.from(persons).firstMatch(ageIs30).get();
 
         assertEquals(new Person("Николай", "Зимов", 30), person);
     }
@@ -95,14 +100,7 @@ public class Exercise1 {
         List<Person> persons = Arrays.asList(getPersons());
 
         // TODO использовать FluentIterable
-        FluentIterable<Person> fluentIterablePersons = FluentIterable.from(persons);
-        Optional<Person> personOptional = fluentIterablePersons.firstMatch(new Predicate<Person>() {
-            @Override
-            public boolean apply(Person person) {
-                return 30 == person.getAge();
-            }
-        });
-        Person person = personOptional.get();
+        Person person = FluentIterable.from(persons).firstMatch(p -> p.getAge()==30).get();
 
         assertEquals(new Person("Николай", "Зимов", 30), person);
     }
