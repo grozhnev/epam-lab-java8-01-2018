@@ -1,6 +1,5 @@
 package lambda.part1.exercise;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import lambda.data.Person;
@@ -100,7 +99,12 @@ public class Exercise1 {
         List<Person> persons = Arrays.asList(getPersons());
 
         // TODO использовать FluentIterable
-        Person person = FluentIterable.from(persons).firstMatch(p -> p.getAge()==30).get();
+        Person person = FluentIterable.from(persons).firstMatch(new Predicate<Person>() {
+            @Override
+            public boolean apply(Person person) {
+                return person.getAge() == 30;
+            }
+        }).get();
 
         assertEquals(new Person("Николай", "Зимов", 30), person);
     }
