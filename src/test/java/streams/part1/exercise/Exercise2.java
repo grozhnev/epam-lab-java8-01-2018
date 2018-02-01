@@ -64,8 +64,7 @@ public class Exercise2 {
         int defaultSalary = 75_000;
 
         Double expected = employees.stream()
-                .map(employee -> employee.getJobHistory().stream()
-                        .reduce((first, second) -> second).orElseThrow(IllegalStateException::new))
+                .map(employee -> employee.getJobHistory().get(employee.getJobHistory().size() - 1))
                 .mapToDouble(job -> job.getDuration() <= 3 ? defaultSalary : defaultSalary * 1.2)
                 .sum();
 
