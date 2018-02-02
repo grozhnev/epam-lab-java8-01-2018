@@ -27,15 +27,20 @@ public class Example7 {
 
     @Test
     public void ambiguousMethodReference() {
+
         Runnable runnable = () -> System.out.println("Лямбда для Runnable");
         perform(runnable);
 
         Usable usable = () -> System.out.println("Лямбда для Usable");
         perform(usable);
+
+        perform((Usable)(() -> System.out.println("Лямбда для Usable")));
+
+
         
         Runnable method = this::doSomething;
         perform(method);
-        
+
         perform((Usable)this::doSomething);
     }
 }
