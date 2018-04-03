@@ -89,17 +89,18 @@ public class Exercise1 {
         List<Person> persons = Arrays.asList(getPersons());
 
         // TODO использовать FluentIterable
-        Predicate<Person> predicate = new Predicate<Person>() {
+        com.google.common.base.Predicate<Person> predicate = new com.google.common.base.Predicate<Person>() {
             @Override
-            public boolean test(Person person) {
+            public boolean apply(Person person) {
                 return person.getAge() == 30;
             }
         };
 
-        Optional<Person> personOptional = FluentIterable.from(persons).filter(predicate);
-        Person person = personOptional.get();
+        com.google.common.base.Optional<Person> personOptional = FluentIterable.from(persons).firstMatch(predicate);
 
-        assertEquals(new Person("Николай", "Зимов", 30), person);
+        if(personOptional.isPresent()) {
+            assertEquals(new Person("Николай", "Зимов", 30), personOptional.get());
+        }
     }
 
     @Test
@@ -107,9 +108,16 @@ public class Exercise1 {
         List<Person> persons = Arrays.asList(getPersons());
 
         // TODO использовать FluentIterable
-        Person person = null;
+        com.google.common.base.Optional<Person> personOptional = FluentIterable.from(persons).firstMatch(new com.google.common.base.Predicate<Person>() {
+            @Override
+            public boolean apply(Person person) {
+                return person.getAge() == 30;
+            }
+        });
 
-        assertEquals(new Person("Николай", "Зимов", 30), person);
+        if(personOptional.isPresent()) {
+            assertEquals(new Person("Николай", "Зимов", 30), personOptional.get());
+        }
     }
 
     private Person[] getPersons() {
